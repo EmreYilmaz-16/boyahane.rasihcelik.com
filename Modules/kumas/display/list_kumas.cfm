@@ -1,5 +1,5 @@
 <h1>
-    Bu ne
+    Bu ne emre
 </h1>
 <cfquery name="getList" datasource="#dsn#">
     SELECT S.PRODUCT_CODE,C.FULLNAME,S.STOCK_ID,S.PRODUCT_ID,PRODUCT_NAME,PB.BRAND_NAME FROM catalyst_prod_1.STOCKS AS S 
