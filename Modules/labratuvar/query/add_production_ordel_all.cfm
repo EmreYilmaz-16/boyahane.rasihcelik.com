@@ -343,9 +343,13 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 							<cfprocparam cfsqltype="cf_sql_integer" value="#____po_related_id____#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
-						<cfprocparam cfsqltype="cf_sql_integer" value="#production_stock_id#">
-						<cfprocparam cfsqltype="cf_sql_float" value="#quantity#">
+						</cfif><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_integer" value="#production_stock_id#"> <!---OK---->
+						<cfprocparam cfsqltype="cf_sql_float" value="#quantity#"><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes"><!---OK---->
+							<cfprocparam cfsqltype="cf_sql_varchar" value="NULL" null="yes"><!---OK---->
+
+							
 						<cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0 and isdate(attributes.start_date)>
 							<cfprocparam cfsqltype="cf_sql_timestamp" value="#attributes.start_date#">
 						<cfelseif isdefined('startdate_fn_#prod_ind#_#sayac#')>	
@@ -354,7 +358,8 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 							<cfprocparam cfsqltype="cf_sql_timestamp" value="#Evaluate('startdate_fn_1_0')#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_timestamp" value="NULL" null="yes">	
-						</cfif>
+						</cfif><!---OK---->
+
 						<cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0 and isdate(attributes.deliver_date)>
 							<cfprocparam cfsqltype="cf_sql_timestamp" value="#attributes.deliver_date#">
 						<cfelseif isdefined('finishdate_fn_#prod_ind#_#sayac#')>	
@@ -363,96 +368,103 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 							<cfprocparam cfsqltype="cf_sql_timestamp" value="#Evaluate('finishdate_fn_1_0')#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_timestamp" value="NULL" null="yes">
-						</cfif>
-						<cfprocparam cfsqltype="cf_sql_integer" value="#session.ep.userid#">
-						<cfprocparam cfsqltype="cf_sql_timestamp" value="#now()#">
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#CGI.REMOTE_ADDR#">
-						<cfprocparam cfsqltype="cf_sql_integer" value="1">
+						</cfif><!---OK---->
+
+						<cfprocparam cfsqltype="cf_sql_integer" value="#session.ep.userid#"><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_timestamp" value="#now()#"><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#CGI.REMOTE_ADDR#"><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_integer" value="1"><!---OK---->
+
 						<cfif isdefined('attributes.project_id') and len(attributes.project_id)>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#attributes.project_id#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#system_paper_no#">
+						</cfif><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#system_paper_no#"><!---OK---->
+
 						<cfif isdefined('attributes.detail')>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#attributes.detail#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
+
 						<cfif isdefined("attributes.process_stage")>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#attributes.process_stage#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
+
 						<cfif isdefined('attributes.station_id_#prod_ind#_#sayac#') and len(ListGetAt(Evaluate('attributes.station_id_#prod_ind#_#sayac#'),1,',')) and ListGetAt(Evaluate('attributes.station_id_#prod_ind#_#sayac#'),1,',') gt 0>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#ListGetAt(Evaluate('attributes.station_id_#prod_ind#_#sayac#'),1,',')#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
 						</cfif>
+						<!---OK---->
 						<cfif len(spect_id) and spect_id gt 0 and sayac eq 0>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#spect_id#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif><!--- Sadece Ana Ürün için spect_var_id oluşturuyoruz. --->
+						</cfif><!--- Sadece Ana Ürün için spect_var_id oluşturuyoruz. ---><!---OK---->
 						<cfif isdefined("spec_var_name") and len(spec_var_name)>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#spec_var_name#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif isdefined('attributes.stock_reserved')>
 							<cfprocparam cfsqltype="cf_sql_bit" value="#attributes.stock_reserved#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_bit" value="0">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif isdefined('attributes.is_demontaj') and attributes.is_demontaj eq 1>
 							<cfprocparam cfsqltype="cf_sql_bit" value="#attributes.is_demontaj#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_bit" value="0">
-						</cfif>
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#lot_system_paper_no#">
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#production_step#">
-						<cfprocparam cfsqltype="cf_sql_integer" value="#spect_main_id___#">
+						</cfif><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#lot_system_paper_no#"><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#production_step#"><!---OK---->
+						<cfprocparam cfsqltype="cf_sql_integer" value="#spect_main_id___#"><!---OK---->
 						<cfif attributes.is_operator_display eq 1 and attributes.is_stage eq 4>
 							<cfprocparam cfsqltype="cf_sql_integer" value="0">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#attributes.is_stage#">
-						</cfif>
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#wrk_id_new#">
+						</cfif><!---OK---->
+
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#wrk_id_new#"><!---OK---->
 						<cfif isdefined('attributes.demand_no') and len(attributes.demand_no)>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#attributes.demand_no#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif len(_EXIT_DEP_ID) and _EXIT_DEP_ID gt 0>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#_EXIT_DEP_ID#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif len(_EXIT_LOC_ID) and _EXIT_LOC_ID gt 0>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#_EXIT_LOC_ID#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif len(_PRODUCTION_DEP_ID) and _PRODUCTION_DEP_ID gt 0>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#_PRODUCTION_DEP_ID#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif len(_PRODUCTION_LOC_ID) and _PRODUCTION_LOC_ID gt 0>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#_PRODUCTION_LOC_ID#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif isdefined('attributes.work_id') and len(attributes.work_id) and len(attributes.work_head)>
 							<cfprocparam cfsqltype="cf_sql_integer" value="#attributes.work_id#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_integer" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 						<cfif isdefined('attributes.wrk_row_relation_id') and len(attributes.wrk_row_relation_id)>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#attributes.wrk_row_relation_id#">
 						<cfelse>
 							<cfprocparam cfsqltype="cf_sql_varchar" value="NULL" null="yes">
-						</cfif>
+						</cfif><!---OK---->
 					</cfstoredproc>
 					
 					<cfstoredproc procedure="UPD_GENERAL_PAPERS_PROD_ORDER_NUMBER" datasource="#dsn3#">

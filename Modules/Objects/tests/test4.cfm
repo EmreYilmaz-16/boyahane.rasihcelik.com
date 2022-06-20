@@ -588,6 +588,6 @@
     <cfdump  var="#getP#">
 </cfif>
 <script>
-this.close();
+//this.close();
 </script>
 <cfabort>
