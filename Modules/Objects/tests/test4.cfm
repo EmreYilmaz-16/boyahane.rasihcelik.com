@@ -1,5 +1,4 @@
-﻿<cfdump var="#attributes#">
-<cfabort>
+﻿
 
 <cfset data=deserializeJSON(attributes.data)>
 <cfdump  var="#data#">
