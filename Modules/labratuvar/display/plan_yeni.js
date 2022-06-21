@@ -212,11 +212,11 @@ function get_stations(UpStationId) {
 function getLData() {
     console.warn("sheduledata objesi- " + new Date)
     schedule = $("#scheduler").dxScheduler({
-      //  timeZone: "Europe/Istanbul",
+        timeZone: "Europe/Istanbul",
         dataSource: data,
         views: ["timelineDay", {
             type: "day",
-            cellDuration: 30,
+            cellDuration: 60,
             timeCellTemplate: function (data, index, element) {
                 element.text(data.text)
                     .css('color', 'green')
@@ -245,7 +245,7 @@ function getLData() {
         firstDayOfWeek: 0,
 
         groups: ["STATION_ID"],
-        cellDuration: 30,
+        cellDuration: 60,
         resources: [
             {
                 dataSource: station_list,
