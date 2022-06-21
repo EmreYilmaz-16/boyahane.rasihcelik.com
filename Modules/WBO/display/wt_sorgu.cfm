@@ -15,4 +15,14 @@
 <cfdump var="#res#">
 <cfdump var="#getD#">
 </cfif>
-
+<table>
+    <cfoutput>
+    <tr>
+        <cfloop list="#res.COLUMNLIST#" item="i">
+            <td>
+                #i#     
+            </td>
+        </cfloop>
+    </tr>
+</cfoutput>
+</table>
