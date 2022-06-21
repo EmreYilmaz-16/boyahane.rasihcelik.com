@@ -216,7 +216,7 @@ function getLData() {
         dataSource: data,
         views: ["timelineDay", {
             type: "day",
-            //cellDuration: 30,
+            cellDuration: 30,
             timeCellTemplate: function (data, index, element) {
                 element.text(data.text)
                     .css('color', 'green')
