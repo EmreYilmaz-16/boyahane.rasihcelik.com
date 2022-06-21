@@ -17,7 +17,7 @@
             <cfset attributes.START_DATE_1="#dateformat(data.ev.endDate,'yyyy-mm-dd')#">
 <cfset attributes.station_id_1_0="#data.ev.STATION_ID#,0,0,0,-1,4,4,4,4">
 <cfdump var="#attributes#">
-<cfabort>
+
 <cfoutput>
 <CFSET START_DATE=dateAdd("h", 2, data.ev.endDate)>
 <cfdump  var="#attributes#">
