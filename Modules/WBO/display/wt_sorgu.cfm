@@ -1,4 +1,4 @@
-<cfform method="post" action="request.self?fuseaction=#attributes.fuseaction#">
+<cfform method="post" action="#request.self#?fuseaction=#attributes.fuseaction#">
     <cfoutput>
 
 </cfoutput>
