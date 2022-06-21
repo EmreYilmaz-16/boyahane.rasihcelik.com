@@ -1,4 +1,4 @@
-cd c://w3onge
+cd c://boyahane.rasihcelik.com
 set HOME=%USERPROFILE%
 
 git pull 
