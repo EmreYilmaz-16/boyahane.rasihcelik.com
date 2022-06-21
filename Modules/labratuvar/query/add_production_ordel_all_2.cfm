@@ -344,6 +344,32 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 				
 					<cfset wrk_id_new = 'WRK#round(rand()*65)##dateformat(now(),'YYYYMMDD')##timeformat(now(),'HHmmssL')##session.ep.userid##round(rand()*100)#'>
 					<!--- ÜRETİM EMRİ EKLENİYOR --->
+<cfoutput>
+	start date
+	<cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0 and isdate(attributes.start_date)>
+	1	#attributes.start_date#
+	<cfelseif isdefined('startdate_fn_#prod_ind#_#sayac#')>	
+	2	#Evaluate('startdate_fn_#prod_ind#_#sayac#')#
+	<cfelseif isdefined('startdate_fn_1_0')>	
+	3	#Evaluate('startdate_fn_1_0')#
+	<cfelse>
+	4	boş
+	</cfif><!---OK---->
+
+	<hr>
+	deliver_date
+	<cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0 and isdate(attributes.deliver_date)>
+	1	#attributes.deliver_date#"
+	<cfelseif isdefined('finishdate_fn_#prod_ind#_#sayac#')>
+	2	#Evaluate('finishdate_fn_#prod_ind#_#sayac#')#	
+	<cfelseif isdefined('finishdate_fn_1_0')>	
+	3	#Evaluate('finishdate_fn_1_0')#
+	<cfelse>
+	4	BOŞ
+	</cfif>
+</cfoutput>
+
+
 					<cfstoredproc procedure="ADD_PRODUCTION_ORDER" datasource="#dsn3#">
 						<cfif production_level eq 0 and isdefined('attributes.po_related_id_main') and len(attributes.po_related_id_main)><!--- Bir üretimin detayından ilişkili bir üretim ekleniyorsa --->
 							<cfprocparam cfsqltype="cf_sql_integer" value="#attributes.po_related_id_main#">

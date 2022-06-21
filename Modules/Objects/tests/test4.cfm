@@ -609,7 +609,7 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 <cfset attributes.FINISH_M_1="#minute(FINISH_DATE)#">
 <cfset attributes.START_H_1="#hour(START_DATE)#">
 <cfset attributes.START_M_1="#minute(START_DATE)#">
- <cfset attributes.DELIVER_DATE_1=FINISH_DATE>
+ <cfset attributes.DELIVER_DATE_1=NEW_START_DATE>
 <cfset attributes.PRODUCT_VALUES_1_0="#getOperationTime.STOCK_ID#,0,0,0,#getOperationTime.SPECT_MAIN_ID#">
 
 <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
