@@ -24,5 +24,12 @@
             </td>
         </cfloop>
     </tr>
+    <cfloop query="getD">
+        <tr>
+            <cfloop list="#res.COLUMNLIST#" item="i">
+                #evaluate(i)#
+            </cfloop>
+        </tr>
+    </cfloop>
 </cfoutput>
 </table>
