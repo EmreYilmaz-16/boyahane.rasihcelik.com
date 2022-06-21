@@ -12,10 +12,9 @@
     <cfquery name="getD" datasource="#dsn#" result="res">
         #preserveSingleQuotes(attributes.query_q)#
     </cfquery>
-<cfdump var="#res#">
-<cfdump var="#getD#">
+
 </cfif>
-<table>
+<table class="table">
     <cfoutput>
     <tr>
         <cfloop list="#res.COLUMNLIST#" item="i">
@@ -27,7 +26,7 @@
     <cfloop query="getD">
         <tr>
             <cfloop list="#res.COLUMNLIST#" item="i">
-                #evaluate(i)#
+               <td> #evaluate(i)#</td>
             </cfloop>
         </tr>
     </cfloop>
