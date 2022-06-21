@@ -212,7 +212,7 @@ function get_stations(UpStationId) {
 function getLData() {
     console.warn("sheduledata objesi- " + new Date)
     schedule = $("#scheduler").dxScheduler({
-        timeZone: "Europe/Istanbul",
+      //  timeZone: "Europe/Istanbul",
         dataSource: data,
         views: ["timelineDay", {
             type: "day",
