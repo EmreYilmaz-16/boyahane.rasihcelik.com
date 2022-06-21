@@ -546,6 +546,18 @@
 <cfquery name="getLot" datasource="#dsn3#">
             select PRODUCTION_LOT_NO,PRODUCTION_LOT_NUMBER from GENERAL_PAPERS WHERE PRODUCTION_LOT_NUMBER IS NOT NULL
         </cfquery>
+
+
+
+
+
+
+
+
+
+
+<cfabort>
+
 <cfif data.type.pos eq "current">
     <cfinclude  template="current_inc.cfm">
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
