@@ -245,7 +245,7 @@ function getLData() {
         firstDayOfWeek: 0,
 
         groups: ["STATION_ID"],
-        cellDuration: 60,
+        cellDuration: 30,
         resources: [
             {
                 dataSource: station_list,
