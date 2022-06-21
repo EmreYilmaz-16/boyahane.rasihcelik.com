@@ -544,8 +544,8 @@
         </cffunction>
 
 <cfquery name="getLot" datasource="#dsn3#">
-            select PRODUCTION_LOT_NO,PRODUCTION_LOT_NUMBER from GENERAL_PAPERS WHERE PRODUCTION_LOT_NUMBER IS NOT NULL
-        </cfquery>
+    select PRODUCTION_LOT_NO,PRODUCTION_LOT_NUMBER from GENERAL_PAPERS WHERE PRODUCTION_LOT_NUMBER IS NOT NULL
+</cfquery>
 
 <cfoutput>
 <cfset REAL_START_DATE=dateadd("h",2,createODBCDateTime(data.ev.startDate))>
@@ -620,9 +620,9 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 
 
-<cfelseif data.type.pos eq "after"><!----Sonrasına Yıkama Ekle---->
+<!---<cfelseif data.type.pos eq "after"><!----Sonrasına Yıkama Ekle---->
 
-<cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->
+<cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->--->
 
 </cfif>
 
@@ -634,7 +634,7 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 
 
-<cfabort>
+<!---<cfabort>---->
 
 <cfif data.type.pos eq "current">
     <cfinclude  template="current_inc.cfm">
