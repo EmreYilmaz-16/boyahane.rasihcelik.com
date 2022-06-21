@@ -17,7 +17,7 @@
             <cfset attributes.START_DATE_1="#dateformat(data.ev.endDate,'yyyy-mm-dd')#">
 <cfset attributes.station_id_1_0="#data.ev.STATION_ID#,0,0,0,-1,4,4,4,4">
 <cfoutput>
-<CFSET START_DATE=dateAdd("h", 2, data.ev.endDate)>
+<CFSET START_DATE=dateAdd("h", 3, data.ev.endDate)>
 <cfdump  var="#attributes#">
 <cfswitch expression="#data.type.tip#">
 <cfcase value="0">
@@ -56,5 +56,3 @@ where PT.OPERATION_TYPE_ID=9
  <cfset attributes.DELIVER_DATE_1=END_DATE>
 <cfset attributes.PRODUCT_VALUES_1_0="#getOp.STOCK_ID#,0,0,0,#getOp.SPECT_MAIN_ID#">
 
-<h1>Mehtap</h1>
-<cfdump  var="#attributes#">
