@@ -1,4 +1,6 @@
-﻿
+﻿<cfdump var="#attributes#">
+<cfabort>
+
 <cfset data=deserializeJSON(attributes.data)>
 <cfdump  var="#data#">
 
@@ -571,11 +573,13 @@
 
 </cfif>
 <cfif data.type.pos eq "after">
+
 <cfdump  var="#dateAdd("h",2,data.ev.endDate)# ">
 <cfinclude  template="after_inc.cfm">
        <cfquery name="getP" datasource="#dsn3#">
         SELECT * FROM PRODUCTION_ORDERS WHERE START_DATE>=#dateAdd("h",2,data.ev.endDate)# AND STATION_ID=#data.ev.STATION_ID#  and DAY(START_DATE) =#DAY(dateAdd("h",2,DATA.EV.endDate))#
     </cfquery>
+    <!---- Eğer Yıkamadan Sonrada iş Emirleri Varsa Onların Saatlerini Yıkama Operasyonu Süresi Kadar İleri İttirir ------>
     <cfloop query="getP">
         <cfset new_start_date = dateAdd("n",getOp.O_MINUTE,START_DATE)>
         <cfset new_finish_date = dateAdd("n",getOp.O_MINUTE,FINISH_DATE)>
@@ -584,6 +588,7 @@
         UPDATE PRODUCTION_ORDERS SET START_DATE=#new_start_date# ,FINISH_DATE=#new_finish_date# WHERE P_ORDER_ID=#P_ORDER_ID#
       </cfquery>
     </cfloop>
+
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
     <cfdump  var="#getP#">
 </cfif>
