@@ -89,7 +89,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 </cfscript>
 
 <cfdump  var="#attributes#">
-<cfabort>
+
 <cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0><!--- Zaman Hesaplaması Yapılmamış denmiş ise her üretim için başlangıç ve bitiş saatini atıycaz. --->
 	<cfif isdefined('attributes.start_date') and isdate(attributes.start_date) and len(attributes.start_m) and len(attributes.start_h)>
 	<!---	<cfset attributes.start_date=createodbcdatetime(attributes.start_date)>
