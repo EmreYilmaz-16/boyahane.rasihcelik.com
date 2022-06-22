@@ -621,6 +621,20 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 
 <cfelseif data.type.pos eq "after"><!----Sonrasına Yıkama Ekle---->
+    <cfset REAL_START_DATE=dateadd("h",2,createODBCDateTime(data.ev.endDate))>
+    <cfquery name="getNextPOrders" datasource="#dsn#">
+        select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(REAL_START_DATE,"yyyy-mm-dd")# #timeformat(REAL_START_DATE,"HH:nn")#'
+    </cfquery>
+<cfquery name="getOperationTime" datasource="#dsn#">
+    select PT.STOCK_ID,OT.O_MINUTE,SM.SPECT_MAIN_ID from catalyst_prod_1.PRODUCT_TREE AS PT 
+LEFT JOIN catalyst_prod_1.OPERATION_TYPES AS OT ON OT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
+LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
+where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
+</cfquery>
+
+<cfdump var="#getOperationTime#">
+
+
 
 <cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->
 
