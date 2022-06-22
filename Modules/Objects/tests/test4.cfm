@@ -631,6 +631,8 @@ LEFT JOIN catalyst_prod_1.OPERATION_TYPES AS OT ON OT.OPERATION_TYPE_ID=<cfif da
 LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
 where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
 </cfquery>
+#REAL_START_DATE#<br>
+#REAL_FINISH_DATE#
 <cfloop query="getNextPOrders">
     <cfquery name="getOrderNumber" datasource="#dsn#">
         select * from catalyst_prod_1.PRODUCTION_ORDERS_ROW where PRODUCTION_ORDER_ID=#P_ORDER_ID#
