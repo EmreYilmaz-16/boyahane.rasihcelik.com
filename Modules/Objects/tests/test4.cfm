@@ -621,6 +621,46 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 
 <cfelseif data.type.pos eq "after"><!----Sonrasına Yıkama Ekle---->
+    <cfset REAL_START_DATE=dateadd("h",2,createODBCDateTime(data.ev.endDate))>
+    <cfquery name="getNextPOrders" datasource="#dsn#">
+        select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(REAL_START_DATE,"yyyy-mm-dd")# #timeformat(REAL_START_DATE,"HH:nn")#'
+    </cfquery>
+<cfquery name="getOperationTime" datasource="#dsn#">
+    select PT.STOCK_ID,OT.O_MINUTE,SM.SPECT_MAIN_ID from catalyst_prod_1.PRODUCT_TREE AS PT 
+LEFT JOIN catalyst_prod_1.OPERATION_TYPES AS OT ON OT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
+LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
+where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
+</cfquery>
+#REAL_START_DATE#<br>
+#REAL_FINISH_DATE#
+<cfloop query="getNextPOrders">
+    <cfquery name="getOrderNumber" datasource="#dsn#">
+        select * from catalyst_prod_1.PRODUCTION_ORDERS_ROW where PRODUCTION_ORDER_ID=#P_ORDER_ID#
+    </cfquery>
+
+
+<CFSET NEW_START_DATE=dateAdd("n", getOperationTime.O_MINUTE, START_DATE)>
+<CFSET NEW_FINISH_DATE=dateAdd("n", getOperationTime.O_MINUTE, FINISH_DATE)>
+#START_DATE# --- #FINISH_DATE#<BR>
+#NEW_START_DATE#---#NEW_FINISH_DATE#<BR>
+
+<HR>
+<!----
+<CFIF getOrderNumber.RECORDCOUNT>
+    <cfquery name="updOrder" datasource="#DSN#">
+        UPDATE  catalyst_prod_1.ORDER_ROW SET DELIVER_DATE=#REAL_FINISH_DATE# WHERE ORDER_ROW_ID=#getOrderNumber.ORDER_ROW_ID#
+    </cfquery>
+</CFIF>
+    <cfquery name="upd_p_order_id" datasource="#dsn#">
+        UPDATE catalyst_prod_1.PRODUCTION_ORDERS SET START_DATE=#NEW_START_DATE#,FINISH_DATE=#NEW_FINISH_DATE# WHERE P_ORDER_ID=#P_ORDER_ID#
+    </cfquery>
+---->
+
+
+</cfloop>
+
+
+
 
 <cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->
 
