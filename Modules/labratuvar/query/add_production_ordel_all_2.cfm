@@ -29,7 +29,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 
 </cfif>
 
-<div style="color:red">2-<cfoutput>#attributes.start_date#</cfoutput></div>
+<!----<div style="color:red">2-<cfoutput>#attributes.start_date#</cfoutput></div>---->
 
 <cfif not isdefined("new_keyword_")>
 	<cfset new_keyword_ = "">
