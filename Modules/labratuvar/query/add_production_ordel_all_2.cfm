@@ -94,10 +94,10 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 
 <cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0><!--- Zaman Hesaplaması Yapılmamış denmiş ise her üretim için başlangıç ve bitiş saatini atıycaz. --->
 	<cfif isdefined('attributes.start_date') and isdate(attributes.start_date) and len(attributes.start_m) and len(attributes.start_h)>
-	<!---	<cfset attributes.start_date=createodbcdatetime(attributes.start_date)>
+<cfset attributes.start_date=createodbcdatetime(attributes.start_date)>
 		<cf_date tarih = "attributes.start_date">
 		
-		<cfset attributes.start_date = dateadd("n",attributes.start_m,dateadd("h",attributes.start_h ,attributes.start_date))><!--- - session.ep.time_zone --->--->
+		<cfset attributes.start_date = dateadd("n",attributes.start_m,dateadd("h",attributes.start_h ,attributes.start_date))><!--- - session.ep.time_zone --->
 	<cfelse>
 		<!---<cfset attributes.start_date =''>--->
 	</cfif>
