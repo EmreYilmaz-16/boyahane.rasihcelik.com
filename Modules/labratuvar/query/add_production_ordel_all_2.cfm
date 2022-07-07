@@ -1,7 +1,7 @@
 ﻿
 <cfif (attributes.finish_h_1 eq attributes.start_h_1) and (attributes.finish_m_1 eq attributes.start_m_1)>
 <cfset emreTarih="#attributes.start_date_1# #attributes.start_h_1#:#attributes.start_m_1#">
-buurdaaaa
+
 
 
 <cfquery name="getToplamsure" datasource="#dsn#_1">
@@ -18,8 +18,6 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 <cfelse>
 <cfset tsurem=30>
 </cfif>
-
-<div style="color:red">1-<cfoutput>#attributes.start_date#</cfoutput></div>
 
 <cfset attributes.deliver_date=dateAdd("n", tsurem, emreTarih)>
 <cfset attributes.deliver_date_1=dateAdd("n", tsurem, emreTarih)>
@@ -89,8 +87,8 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 	else
 		attributes.work_head = '';
 </cfscript>
-<div style="color:red">3-<cfoutput>#attributes.start_date#</cfoutput></div>
-<cfdump  var="#attributes#">
+
+
 
 <cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0><!--- Zaman Hesaplaması Yapılmamış denmiş ise her üretim için başlangıç ve bitiş saatini atıycaz. --->
 	<cfif isdefined('attributes.start_date') and isdate(attributes.start_date) and len(attributes.start_m) and len(attributes.start_h)>
@@ -101,7 +99,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 	<cfelse>
 		<!---<cfset attributes.start_date =''>--->
 	</cfif>
-	<div style="color:red">4-<cfoutput>#attributes.start_date#</cfoutput></div>
+	
 	<cfif isdefined('attributes.deliver_date') and isdate(attributes.deliver_date) and len(attributes.finish_h) and len(attributes.finish_m)>
 	<!----	<cfset attributes.deliver_date=createodbcdatetime(attributes.deliver_date)>
 		<cf_date tarih = "attributes.deliver_date">
@@ -109,7 +107,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 	<cfelse>
 	<!---	<cfset attributes.deliver_date = '' >---->
 	</cfif>
-	<div style="color:red">5-<cfoutput>#attributes.start_date#</cfoutput></div>
+	
 <cfelse>
 	<!--- Zaman Hesaplaması Yapılsın Denilmiş ise --->
 	<cfparam name="n_now_#prod_ind#" default="">
@@ -135,7 +133,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 			</cfif>
 		</cfif>
 	</cfloop>
-	<div style="color:red">6-<cfoutput>#attributes.start_date#</cfoutput></div>
+	
 	<cfset new_production_row_count_list = ListAppend(new_production_row_count_list,0,',')><!--- Son olarak ana ürün üretileceği için onun numarası olan 0'ı ekliyoruz. --->
 	<cfloop list="#new_production_row_count_list#" index="indexx">
 		<cfif listlen(Evaluate('attributes.station_id_#prod_ind#_#indexx#'),',') eq 4><!--- bu kontrol sonrada kalkacak! --->
@@ -143,7 +141,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 		<cfelse>
 			<cfset setup_time = 0 >
 		</cfif>
-		<div style="color:red">7-<cfoutput>#attributes.start_date#</cfoutput></div>
+	
 		<!--- 
 			<cfscript> 
 			'production_times#indexx#'=get_production_times(
@@ -157,7 +155,7 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 			);
 			</cfscript>
 		--->
-		<div style="color:red">8-<cfoutput>#attributes.start_date#</cfoutput></div>
+		
 		<cfif len(Evaluate('attributes.station_id_#prod_ind#_#indexx#'))><cfelse><cfset "attributes.station_id_#prod_ind#_#indexx#"="0,0,0,0,-1,4,4,4,4"></cfif>
 		<cfscript> 
 		if(attributes.works_prog is '')
@@ -351,30 +349,6 @@ where pt.STOCK_ID =(Select STOCK_ID from catalyst_prod_1.ORDER_ROW where ORDER_R
 				
 					<cfset wrk_id_new = 'WRK#round(rand()*65)##dateformat(now(),'YYYYMMDD')##timeformat(now(),'HHmmssL')##session.ep.userid##round(rand()*100)#'>
 					<!--- ÜRETİM EMRİ EKLENİYOR --->
-<cfoutput>
-	start date
-	<cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0 and isdate(attributes.start_date)>
-	1	#attributes.start_date#
-	<cfelseif isdefined('startdate_fn_#prod_ind#_#sayac#')>	
-	2	#Evaluate('startdate_fn_#prod_ind#_#sayac#')#
-	<cfelseif isdefined('startdate_fn_1_0')>	
-	3	#Evaluate('startdate_fn_1_0')#
-	<cfelse>
-	4	boş
-	</cfif><!---OK---->
-
-	<hr>
-	deliver_date
-	<cfif isdefined('attributes.is_time_calculation') and attributes.is_time_calculation eq 0 and isdate(attributes.deliver_date)>
-	1	#attributes.deliver_date#"
-	<cfelseif isdefined('finishdate_fn_#prod_ind#_#sayac#')>
-	2	#Evaluate('finishdate_fn_#prod_ind#_#sayac#')#	
-	<cfelseif isdefined('finishdate_fn_1_0')>	
-	3	#Evaluate('finishdate_fn_1_0')#
-	<cfelse>
-	4	BOŞ
-	</cfif>
-</cfoutput>
 
 
 					<cfstoredproc procedure="ADD_PRODUCTION_ORDER" datasource="#dsn3#">
