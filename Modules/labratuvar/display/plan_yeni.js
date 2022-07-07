@@ -359,6 +359,9 @@ var groupCell = function (e) {
 var yikamaEkle = function (e) {
    
     console.log(e)
+    currentTarget = e.jQEvent.target;
+    var data = $(currentTarget).parents(".dx-item").data("dxItemData");  
+console.log(data);
    /* if (e.cellData) {
         var obj = {
             type: genel_donen.detay,
