@@ -738,7 +738,7 @@ ORDER BY FINISH_DATE DESC
 <cfset attributes.LOT_NO="#getLot.PRODUCTION_LOT_NO#-#getLot.PRODUCTION_LOT_NUMBER+1#">
 <cfset attributes.FINISH_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
 <cfset attributes.START_DATE_1="#dateformat(REAL_START_DATE,'yyyy-mm-dd')#">
-<cfset attributes.station_id_1_0="#data.ev.STATION_ID#,0,0,0,-1,4,4,4,4">
+<cfset attributes.station_id_1_0="#data.ev.groups.STATION_ID#,0,0,0,-1,4,4,4,4">
 
 
 <cfset attributes.FINISH_H_1="#hour(NEW_FINISH_DATE_)#">
