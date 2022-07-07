@@ -550,28 +550,22 @@
 <cfoutput>
 <cfset REAL_START_DATE=dateadd("h",2,createODBCDateTime(data.ev.startDate))>
 <cfset REAL_FINISH_DATE=dateadd("h",2,createODBCDateTime(data.ev.endDate))>
-<div style="color:blue">
-#REAL_START_DATE#<br>
-#REAL_FINISH_DATE#
-<br><br>
-</div>
-<hr>
+
 <cfif data.type.pos eq "before"> <!----Öncesine Yıkama Ekle---->
 
-#REAL_START_DATE#<br>
-#REAL_FINISH_DATE#
+
 
 <cfquery name="getNextPOrders" datasource="#dsn#">
     select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(REAL_START_DATE,"yyyy-mm-dd")# #timeformat(REAL_START_DATE,"HH:nn")#' AND STATION_ID=#data.ev.STATION_ID#
 </cfquery>
-<cfdump  var="#getNextPOrders#">
+
 <cfquery name="getOperationTime" datasource="#dsn#">
     select PT.STOCK_ID,OT.O_MINUTE,SM.SPECT_MAIN_ID from catalyst_prod_1.PRODUCT_TREE AS PT 
 LEFT JOIN catalyst_prod_1.OPERATION_TYPES AS OT ON OT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
 LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
 where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
 </cfquery>
-<cfdump  var="#getOperationTime#">
+
 
 <CFSET NEW_FINISH_DATE_=dateAdd("n", getOperationTime.O_MINUTE, REAL_START_DATE)>
 <cfloop query="getNextPOrders">
@@ -580,10 +574,6 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
     </cfquery>
 <CFSET NEW_START_DATE=dateAdd("n", getOperationTime.O_MINUTE, START_DATE)>
 <CFSET NEW_FINISH_DATE=dateAdd("n", getOperationTime.O_MINUTE, FINISH_DATE)>
-#START_DATE# --- #FINISH_DATE#<BR>
-#NEW_START_DATE#---#NEW_FINISH_DATE#<BR>
-#REAL_START_DATE#---#REAL_FINISH_DATE#<BR>
-<HR>
 <CFIF getOrderNumber.RECORDCOUNT>
     <cfquery name="updOrder" datasource="#DSN#">
         UPDATE  catalyst_prod_1.ORDER_ROW SET DELIVER_DATE=#REAL_FINISH_DATE# WHERE ORDER_ROW_ID=#getOrderNumber.ORDER_ROW_ID#
@@ -641,9 +631,7 @@ LEFT JOIN catalyst_prod_1.OPERATION_TYPES AS OT ON OT.OPERATION_TYPE_ID=<cfif da
 LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
 where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
 </cfquery>
-#REAL_START_DATE#<br>
-#REAL_FINISH_DATE#
-<cfdump  var="#getNextPOrders#">
+
 <CFSET NEW_FINISH_DATE_=dateAdd("n", getOperationTime.O_MINUTE, REAL_START_DATE)>
 <cfloop query="getNextPOrders">
     <cfquery name="getOrderNumber" datasource="#dsn#">
@@ -653,10 +641,6 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 <CFSET NEW_START_DATE=dateAdd("n", getOperationTime.O_MINUTE, START_DATE)>
 <CFSET NEW_FINISH_DATE=dateAdd("n", getOperationTime.O_MINUTE, FINISH_DATE)>
-#START_DATE# --- #FINISH_DATE#<BR>
-#NEW_START_DATE#---#NEW_FINISH_DATE#<BR>
-
-<HR>
 <CFIF getOrderNumber.RECORDCOUNT>
     <cfquery name="updOrder" datasource="#DSN#">
         UPDATE  catalyst_prod_1.ORDER_ROW SET DELIVER_DATE=#NEW_FINISH_DATE# WHERE ORDER_ROW_ID=#getOrderNumber.ORDER_ROW_ID#
@@ -722,7 +706,7 @@ AND STATION_ID =#data.ev.groups.STATION_ID#
 ORDER BY FINISH_DATE DESC
     </cfquery>
 
-<cfdump var="#getOpStart#">
+<!----<cfdump var="#getOpStart#">---->
 
 <CFSET RDS=NOW()>
 
@@ -730,13 +714,6 @@ ORDER BY FINISH_DATE DESC
     <CFSET RDS=createODBCDateTime(getOpStart.FINISH_DATE)>
 </CFIF>
 <CFSET RDF=dateAdd("n", getOperationTime.O_MINUTE, RDS)>
-<div style="color:red">
-    #RDS#<BR>
-    #RDF#
-</div>
-
-
-
 <cfabort>
 
 <!----
@@ -768,11 +745,11 @@ ORDER BY FINISH_DATE DESC
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
 </cfif>
 <cfif data.type.pos eq "before">
-<cfdump  var="#DAY(dateAdd("h",2,DATA.EV.startDate))#"><hr>
+<!---<cfdump  var="#DAY(dateAdd("h",2,DATA.EV.startDate))#"><hr>---->
     <cfquery name="getP" datasource="#dsn3#">
         SELECT * FROM PRODUCTION_ORDERS WHERE START_DATE>=#dateAdd("h",2,data.ev.startDate)# AND STATION_ID=#data.ev.STATION_ID#  and DAY(START_DATE) =#DAY(dateAdd("h",2,DATA.EV.startDate))#
     </cfquery>
-    <cfdump  var="#getP#">
+  
     
     <cfinclude  template="before_inc.cfm">
     <cfloop query="getP">
@@ -785,12 +762,12 @@ ORDER BY FINISH_DATE DESC
     </cfloop>
     
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
-<cfdump  var="#getP#">
+
 
 </cfif>
 <cfif data.type.pos eq "after">
-
-<cfdump  var="#dateAdd("h",2,data.ev.endDate)# ">
+<!----
+<cfdump  var="#dateAdd("h",2,data.ev.endDate)# ">--->
 <cfinclude  template="after_inc.cfm">
        <cfquery name="getP" datasource="#dsn3#">
         SELECT * FROM PRODUCTION_ORDERS WHERE START_DATE>=#dateAdd("h",2,data.ev.endDate)# AND STATION_ID=#data.ev.STATION_ID#  and DAY(START_DATE) =#DAY(dateAdd("h",2,DATA.EV.endDate))#
@@ -806,7 +783,7 @@ ORDER BY FINISH_DATE DESC
     </cfloop>
 
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
-    <cfdump  var="#getP#">
+   <!---- <cfdump  var="#getP#">---->
 </cfif>
 <script>
 //this.close();
