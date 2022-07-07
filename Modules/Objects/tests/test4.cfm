@@ -1,8 +1,6 @@
 ﻿
 
 <cfset data=deserializeJSON(attributes.data)>
-<cfdump  var="#data#">
-
  <cffunction name="cfquery" returntype="any" output="false">
         <!--- 
             usage : my_query_name = cfquery(SQLString:required,Datasource:required(bos olabilir),dbtype:optional,is_select:optinal); 
