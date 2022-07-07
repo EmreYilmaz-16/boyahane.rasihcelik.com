@@ -68,6 +68,6 @@ modified :
 				else
 					"caller.#attributes.tarih#" = "NULL";
 				}
-			else if(1 eq 1) writeoutput('<font color=red><cfoutput>#warning#</cfoutput>(#attributes.tarih#)</font>');
+			else if(1 eq 1) writeoutput('');
 		}
 </cfscript>
