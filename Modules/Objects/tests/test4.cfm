@@ -725,16 +725,28 @@ ORDER BY FINISH_DATE DESC
 <cfdump var="#getOpStart#">
 
 <CFSET RDS=NOW()>
+
 <CFIF getOpStart.recordCount>
     <CFSET RDS=createODBCDateTime(getOpStart.FINISH_DATE)>
 </CFIF>
+<CFSET RDF=dateAdd("n", getOperationTime.O_MINUTE, RDS)>
 <div style="color:red">
-    #RDS#
+    #RDS#<BR>
+    #RDF#
 </div>
 
 
 
 <cfabort>
+
+<!----
+SELECT  TOP 1 * FROM catalyst_prod_1.PRODUCTION_ORDERS WHERE START_DATE >={ts '2022-07-07 15:00:00'}
+AND FINISH_DATE 
+<={ts '2022-07-07 16:00:00'}
+AND STATION_ID=2
+ORDER BY FINISH_DATE DESC
+----->
+    
     <cfinclude  template="current_inc.cfm">
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
 
