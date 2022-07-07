@@ -13,7 +13,7 @@
         #preserveSingleQuotes(attributes.query_q)#
     </cfquery>
 
-</cfif>
+
 <table class="table">
     <cfoutput>
     <tr>
@@ -32,3 +32,4 @@
     </cfloop>
 </cfoutput>
 </table>
+</cfif>

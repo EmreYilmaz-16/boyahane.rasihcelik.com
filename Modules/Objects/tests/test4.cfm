@@ -550,13 +550,19 @@
 <cfoutput>
 <cfset REAL_START_DATE=dateadd("h",2,createODBCDateTime(data.ev.startDate))>
 <cfset REAL_FINISH_DATE=dateadd("h",2,createODBCDateTime(data.ev.endDate))>
+<div style="color:blue">
+#REAL_START_DATE#<br>
+#REAL_FINISH_DATE#
+<br><br>
+</div>
+<hr>
 <cfif data.type.pos eq "before"> <!----Öncesine Yıkama Ekle---->
 
 #REAL_START_DATE#<br>
 #REAL_FINISH_DATE#
 
 <cfquery name="getNextPOrders" datasource="#dsn#">
-    select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(REAL_START_DATE,"yyyy-mm-dd")# #timeformat(REAL_START_DATE,"HH:nn")#'
+    select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(REAL_START_DATE,"yyyy-mm-dd")# #timeformat(REAL_START_DATE,"HH:nn")#' AND STATION_ID=#data.ev.STATION_ID#
 </cfquery>
 <cfdump  var="#getNextPOrders#">
 <cfquery name="getOperationTime" datasource="#dsn#">
@@ -566,6 +572,8 @@ LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
 where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
 </cfquery>
 <cfdump  var="#getOperationTime#">
+
+<CFSET NEW_FINISH_DATE_=dateAdd("n", getOperationTime.O_MINUTE, REAL_START_DATE)>
 <cfloop query="getNextPOrders">
     <cfquery name="getOrderNumber" datasource="#dsn#">
         select * from catalyst_prod_1.PRODUCTION_ORDERS_ROW where PRODUCTION_ORDER_ID=#P_ORDER_ID#
@@ -584,8 +592,9 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
     <cfquery name="upd_p_order_id" datasource="#dsn#">
         UPDATE catalyst_prod_1.PRODUCTION_ORDERS SET START_DATE=#NEW_START_DATE#,FINISH_DATE=#NEW_FINISH_DATE# WHERE P_ORDER_ID=#P_ORDER_ID#
     </cfquery>
+</cfloop>
 
-<cfset attributes.DELIVER_DATE_1="#dateformat(START_DATE,'yyyy-mm-dd')#">
+<cfset attributes.DELIVER_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
 <cfset attributes.DETAIL="">
 <cfset attributes.ORDER_ID_1="">
 <cfset attributes.ORDER_ROW_ID_1="">
@@ -600,30 +609,31 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 <cfset attributes.PROCESS_STAGE="59">
 <cfset attributes.IS_TIME_CALCULATION_1="0">
 <cfset attributes.LOT_NO="#getLot.PRODUCTION_LOT_NO#-#getLot.PRODUCTION_LOT_NUMBER+1#">
-<cfset attributes.FINISH_DATE_1="#dateformat(FINISH_DATE,'yyyy-mm-dd')#">
-<cfset attributes.START_DATE_1="#dateformat(START_DATE,'yyyy-mm-dd')#">
+<cfset attributes.FINISH_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
+<cfset attributes.START_DATE_1="#dateformat(REAL_START_DATE,'yyyy-mm-dd')#">
 <cfset attributes.station_id_1_0="#data.ev.STATION_ID#,0,0,0,-1,4,4,4,4">
 
 
-<cfset attributes.FINISH_H_1="#hour(FINISH_DATE)#">
-<cfset attributes.FINISH_M_1="#minute(FINISH_DATE)#">
-<cfset attributes.START_H_1="#hour(START_DATE)#">
-<cfset attributes.START_M_1="#minute(START_DATE)#">
- <cfset attributes.DELIVER_DATE_1=NEW_START_DATE>
+<cfset attributes.FINISH_H_1="#hour(NEW_FINISH_DATE_)#">
+<cfset attributes.FINISH_M_1="#minute(NEW_FINISH_DATE_)#">
+<cfset attributes.START_H_1="#hour(REAL_START_DATE)#">
+<cfset attributes.START_M_1="#minute(REAL_START_DATE)#">
+ <cfset attributes.DELIVER_DATE_1=NEW_FINISH_DATE_>
 <cfset attributes.PRODUCT_VALUES_1_0="#getOperationTime.STOCK_ID#,0,0,0,#getOperationTime.SPECT_MAIN_ID#">
 
 <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
 
 
 
-</cfloop>
 
 
 
 <cfelseif data.type.pos eq "after"><!----Sonrasına Yıkama Ekle---->
     <cfset REAL_START_DATE=dateadd("h",2,createODBCDateTime(data.ev.endDate))>
+    <cfset S_START_DATE=REAL_FINISH_DATE>
+
     <cfquery name="getNextPOrders" datasource="#dsn#">
-        select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(REAL_START_DATE,"yyyy-mm-dd")# #timeformat(REAL_START_DATE,"HH:nn")#'
+        select * from catalyst_prod_1.PRODUCTION_ORDERS where START_DATE>='#DATEFORMAT(S_START_DATE,"yyyy-mm-dd")# #timeformat(S_START_DATE,"HH:nn")#'
     </cfquery>
 <cfquery name="getOperationTime" datasource="#dsn#">
     select PT.STOCK_ID,OT.O_MINUTE,SM.SPECT_MAIN_ID from catalyst_prod_1.PRODUCT_TREE AS PT 
@@ -633,6 +643,8 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 </cfquery>
 #REAL_START_DATE#<br>
 #REAL_FINISH_DATE#
+<cfdump  var="#getNextPOrders#">
+<CFSET NEW_FINISH_DATE_=dateAdd("n", getOperationTime.O_MINUTE, REAL_START_DATE)>
 <cfloop query="getNextPOrders">
     <cfquery name="getOrderNumber" datasource="#dsn#">
         select * from catalyst_prod_1.PRODUCTION_ORDERS_ROW where PRODUCTION_ORDER_ID=#P_ORDER_ID#
@@ -645,19 +657,47 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 #NEW_START_DATE#---#NEW_FINISH_DATE#<BR>
 
 <HR>
-<!----
 <CFIF getOrderNumber.RECORDCOUNT>
     <cfquery name="updOrder" datasource="#DSN#">
-        UPDATE  catalyst_prod_1.ORDER_ROW SET DELIVER_DATE=#REAL_FINISH_DATE# WHERE ORDER_ROW_ID=#getOrderNumber.ORDER_ROW_ID#
+        UPDATE  catalyst_prod_1.ORDER_ROW SET DELIVER_DATE=#NEW_FINISH_DATE# WHERE ORDER_ROW_ID=#getOrderNumber.ORDER_ROW_ID#
     </cfquery>
 </CFIF>
     <cfquery name="upd_p_order_id" datasource="#dsn#">
         UPDATE catalyst_prod_1.PRODUCTION_ORDERS SET START_DATE=#NEW_START_DATE#,FINISH_DATE=#NEW_FINISH_DATE# WHERE P_ORDER_ID=#P_ORDER_ID#
     </cfquery>
----->
-
-
 </cfloop>
+
+
+<cfset attributes.DELIVER_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
+<cfset attributes.DETAIL="">
+<cfset attributes.ORDER_ID_1="">
+<cfset attributes.ORDER_ROW_ID_1="">
+<cfset attributes.IS_LINE_NUMBER_1="0">
+<cfset attributes.IS_OPERATOR_DISPLAY_1="1">
+<cfset attributes.PRODUCTION_ROW_COUNT_1="0">
+<cfset attributes.STOCK_RESERVED="1">
+<cfset attributes.SHOW_LOT_NO_COUNTER="0">
+<cfset attributes.PRODUCT_AMOUNT_1_0="1">
+<cfset attributes.IS_STAGE="4">
+<cfset attributes.PROJECT_ID_1="">
+<cfset attributes.PROCESS_STAGE="59">
+<cfset attributes.IS_TIME_CALCULATION_1="0">
+<cfset attributes.LOT_NO="#getLot.PRODUCTION_LOT_NO#-#getLot.PRODUCTION_LOT_NUMBER+1#">
+<cfset attributes.FINISH_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
+<cfset attributes.START_DATE_1="#dateformat(REAL_START_DATE,'yyyy-mm-dd')#">
+<cfset attributes.station_id_1_0="#data.ev.STATION_ID#,0,0,0,-1,4,4,4,4">
+
+
+<cfset attributes.FINISH_H_1="#hour(NEW_FINISH_DATE_)#">
+<cfset attributes.FINISH_M_1="#minute(NEW_FINISH_DATE_)#">
+<cfset attributes.START_H_1="#hour(REAL_START_DATE)#">
+<cfset attributes.START_M_1="#minute(REAL_START_DATE)#">
+ <cfset attributes.DELIVER_DATE_1=NEW_FINISH_DATE_>
+<cfset attributes.PRODUCT_VALUES_1_0="#getOperationTime.STOCK_ID#,0,0,0,#getOperationTime.SPECT_MAIN_ID#">
+
+<cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
+
+
 
 
 

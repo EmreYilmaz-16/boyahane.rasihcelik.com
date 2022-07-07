@@ -746,7 +746,7 @@ WHERE IS_READ=0 AND TO_USER_ID=177 order by MESSAGE_DATE desc
 <cfargument  name="work_start_date" >
 <cfargument  name="work_end_date" >
 <cfargument  name="up_station_id">
-<cfif not len(arguments.work_start_date)><cfset arguments.work_start_date=dateAdd("d", -10, now())></cfif>
+<cfif not len(arguments.work_start_date)><cfset arguments.work_start_date=dateAdd("d", -30, now())></cfif>
 <cfif not len(arguments.work_end_date)><cfset arguments.work_end_date=dateAdd("d", 1, now())></cfif>
 
 <cfset current_start_date=createODBCDateTime(arguments.work_start_date)>
