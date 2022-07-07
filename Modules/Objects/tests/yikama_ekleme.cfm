@@ -617,9 +617,8 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
 
 
-<div class="alert alert-success" style="font-size:15pt !important;text-align:center">
-    Yıkama Eklenmiştir !
-</div>
+<cfset Sonuc.Durum=1>
+<cfset Sonuc.Mesaj="Yıkama Eklenmiştir">
 
 
 
@@ -688,10 +687,8 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 
 
-<div class="alert alert-success" style="font-size:15pt !important;text-align:center">
-    Yıkama Eklenmiştir !
-</div>
-
+<cfset Sonuc.Durum=1>
+<cfset Sonuc.Mesaj="Yıkama Eklenmiştir">
 
 <cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->
 
@@ -718,14 +715,48 @@ ORDER BY FINISH_DATE DESC
 <CFSET RDS=NOW()>
 
 <CFIF getOpStart.recordCount>
-    <div class="alert alert-danger" style="font-size:15pt !important;text-align:center">
-        Mevcut Pozisyna Yıkama Ekleyemezsiniz !
-    </div>
-
+    <cfset Sonuc.Durum=0>
+    <cfset Sonuc.Mesaj="Bu Pozisyona Yıkama Ekleyemezsiniz !">
 <cfelse>
-    <CFSET RDS=createODBCDateTime(getOpStart.FINISH_DATE)>
+
+    <CFSET NEW_FINISH_DATE_=dateAdd("n", getOperationTime.O_MINUTE, REAL_START_DATE)>
+
+<cfset attributes.DELIVER_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
+<cfset attributes.DETAIL="">
+<cfset attributes.ORDER_ID_1="">
+<cfset attributes.ORDER_ROW_ID_1="">
+<cfset attributes.IS_LINE_NUMBER_1="0">
+<cfset attributes.IS_OPERATOR_DISPLAY_1="1">
+<cfset attributes.PRODUCTION_ROW_COUNT_1="0">
+<cfset attributes.STOCK_RESERVED="1">
+<cfset attributes.SHOW_LOT_NO_COUNTER="0">
+<cfset attributes.PRODUCT_AMOUNT_1_0="1">
+<cfset attributes.IS_STAGE="4">
+<cfset attributes.PROJECT_ID_1="">
+<cfset attributes.PROCESS_STAGE="59">
+<cfset attributes.IS_TIME_CALCULATION_1="0">
+<cfset attributes.LOT_NO="#getLot.PRODUCTION_LOT_NO#-#getLot.PRODUCTION_LOT_NUMBER+1#">
+<cfset attributes.FINISH_DATE_1="#dateformat(NEW_FINISH_DATE_,'yyyy-mm-dd')#">
+<cfset attributes.START_DATE_1="#dateformat(REAL_START_DATE,'yyyy-mm-dd')#">
+<cfset attributes.station_id_1_0="#data.ev.STATION_ID#,0,0,0,-1,4,4,4,4">
+
+
+<cfset attributes.FINISH_H_1="#hour(NEW_FINISH_DATE_)#">
+<cfset attributes.FINISH_M_1="#minute(NEW_FINISH_DATE_)#">
+<cfset attributes.START_H_1="#hour(REAL_START_DATE)#">
+<cfset attributes.START_M_1="#minute(REAL_START_DATE)#">
+ <cfset attributes.DELIVER_DATE_1=NEW_FINISH_DATE_>
+<cfset attributes.PRODUCT_VALUES_1_0="#getOperationTime.STOCK_ID#,0,0,0,#getOperationTime.SPECT_MAIN_ID#">
+
+
+<cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
+
+<cfset Sonuc.Durum=1>
+<cfset Sonuc.Mesaj="Yıkama Eklenmiştir">
+    
 </CFIF>
-<CFSET RDF=dateAdd("n", getOperationTime.O_MINUTE, RDS)>
+
+
 
 
 <!----
@@ -742,6 +773,24 @@ ORDER BY FINISH_DATE DESC
 
 
 </cfoutput>
+
+<cfif Sonuc.Durum eq 0>
+    
+
+<div class="alert alert-danger" style="font-size:15pt !important;text-align:center">
+    <cfoutput>
+        #Sonuc.Mesaj#
+    </cfoutput>
+    
+</div>
+<cfelse>
+    <div class="alert alert-success" style="font-size:15pt !important;text-align:center">
+        <cfoutput>
+            #Sonuc.Mesaj#
+        </cfoutput>
+        
+    </div>
+</cfif>
 
 </div>
 </div>
