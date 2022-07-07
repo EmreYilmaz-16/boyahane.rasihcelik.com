@@ -170,7 +170,7 @@
                         <tr>
                             <th>Ek İşlemler</th>
                         </tr>
-                      <!---  <cfquery name="getEkislem" datasource="#dsn#_1">
+                        <cfquery name="getEkislem" datasource="#dsn#_1">
                             SELECT * FROM STOCKS WHERE COMPANY_ID=#getShip.COMPANY_ID#
                            AND PRODUCT_DETAIL2='Ek İşlem'
                         </cfquery>
@@ -180,7 +180,7 @@
                                 <label><input class="chk" name="ex_stok" value="#STOCK_ID#" data-id="dx_#STOCK_ID#" type="checkbox">&nbsp;#PRODUCT_NAME#</label>
                             </td>
                         </tr>
-                        </CFLOOP>---->
+                        </CFLOOP>
                     </table>
                 </div>
             </td>
