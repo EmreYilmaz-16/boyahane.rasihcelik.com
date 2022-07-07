@@ -357,12 +357,7 @@ var groupCell = function (e) {
     }
 };
 var yikamaEkle = function (e) {
-   
-    console.log(e)
-    currentTarget = e.jQEvent.target;
-    var data = $(currentTarget).parents(".dx-item").data("dxItemData");  
-console.log(data);
-   /* if (e.cellData) {
+    if (e.cellData) {
         var obj = {
             type: genel_donen.detay,
             ev: e.cellData
@@ -374,7 +369,7 @@ console.log(data);
         }
     }
     //console.log(obj)
-    windowopen("index.cfm?fuseaction=test_page_4&data=" + JSON.stringify(obj), "page")*/
+    openModal_partner("index.cfm?fuseaction=test_page_4&data=" + JSON.stringify(obj), "modal-sm")
 }
 var cellContextMenuItems = [
     {
