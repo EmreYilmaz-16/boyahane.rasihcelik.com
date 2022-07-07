@@ -1,4 +1,9 @@
-﻿
+﻿<div class="card">
+    <div class="card-header">
+        Yıkama Ekle
+    </div>
+    <div class="card-body">
+
 
 <cfset data=deserializeJSON(attributes.data)>
  <cffunction name="cfquery" returntype="any" output="false">
@@ -716,12 +721,12 @@ ORDER BY FINISH_DATE DESC
     <div class="alert alert-danger" style="font-size:20pt !important">
         Mevcut Pozisyna Yıkama Ekleyemezsiniz !
     </div>
-    <cfabort>
+
 <cfelse>
     <CFSET RDS=createODBCDateTime(getOpStart.FINISH_DATE)>
 </CFIF>
 <CFSET RDF=dateAdd("n", getOperationTime.O_MINUTE, RDS)>
-<cfabort>
+
 
 <!----
 SELECT  TOP 1 * FROM catalyst_prod_1.PRODUCTION_ORDERS WHERE START_DATE >={ts '2022-07-07 15:00:00'}
@@ -731,15 +736,15 @@ AND STATION_ID=2
 ORDER BY FINISH_DATE DESC
 ----->
     
-    <cfinclude  template="current_inc.cfm">
-    <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
-
+   
 
 </cfif>
 
 
 </cfoutput>
 
+</div>
+</div>
 
 
 
