@@ -1,8 +1,12 @@
+<cfparam name="attributes.query_q" default="">
 <cfform method="post" action="#request.self#?fuseaction=#attributes.fuseaction#">
     <cfoutput>
 
+
+    <textarea name="query_q">
+        #attributes.query_q#
+    </textarea>
 </cfoutput>
-    <textarea name="query_q"></textarea>
     <input type="hidden" name="is_submit">
     <input type="submit">
 </cfform>

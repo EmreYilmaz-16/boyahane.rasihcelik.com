@@ -714,7 +714,16 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
     where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
     </cfquery>
 
+    <cfquery name="getOpStart" datasource="#dsn#">
+        SELECT  TOP 1 * FROM catalyst_prod_1.PRODUCTION_ORDERS WHERE START_DATE >=#REAL_START_DATE#
+AND FINISH_DATE 
+<=#REAL_FINISH_DATE#
+ORDER BY FINISH_DATE DESC
+    </cfquery>
 
+<cfdump var="#getOpStart#">
+
+<cfabort>
     <cfinclude  template="current_inc.cfm">
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
 
