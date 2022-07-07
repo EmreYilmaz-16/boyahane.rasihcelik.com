@@ -369,7 +369,7 @@ var yikamaEkle = function (e) {
         }
     }
     //console.log(obj)
-    openModal_partner("index.cfm?fuseaction=test_page_4&data=" + JSON.stringify(obj), "modal-sm")
+    openModal_partner("index.cfm?fuseaction=emptypopup_ajaxpage_set_plan&data=" + JSON.stringify(obj), "modal-sm")
 }
 var cellContextMenuItems = [
     {
