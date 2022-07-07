@@ -704,6 +704,17 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 <cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->
 
+
+
+
+    <cfquery name="getOperationTime" datasource="#dsn#">
+        select PT.STOCK_ID,OT.O_MINUTE,SM.SPECT_MAIN_ID from catalyst_prod_1.PRODUCT_TREE AS PT 
+    LEFT JOIN catalyst_prod_1.OPERATION_TYPES AS OT ON OT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
+    LEFT JOIN catalyst_prod_1.SPECT_MAIN AS SM ON SM.STOCK_ID=PT.STOCK_ID
+    where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 1>8<cfelseif data.type.tip eq 2>9</cfif>
+    </cfquery>
+
+
     <cfinclude  template="current_inc.cfm">
     <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all.cfm">
 
