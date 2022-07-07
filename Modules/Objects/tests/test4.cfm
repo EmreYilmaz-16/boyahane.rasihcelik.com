@@ -715,13 +715,24 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
     </cfquery>
 
     <cfquery name="getOpStart" datasource="#dsn#">
-        SELECT  TOP 1 * FROM catalyst_prod_1.PRODUCTION_ORDERS WHERE START_DATE >=#REAL_START_DATE#
+        SELECT  TOP 1 * FROM catalyst_prod_1.PRODUCTION_ORDERS WHERE START_DATE >=#REAL_START_DATE# 
 AND FINISH_DATE 
 <=#REAL_FINISH_DATE#
+AND STATION_ID =#data.ev.groups.STATION_ID#
 ORDER BY FINISH_DATE DESC
     </cfquery>
 
 <cfdump var="#getOpStart#">
+
+<CFSET RDS=NOW()>
+<CFIF getOpStart.recordCount>
+    <CFSET RDS=createODBCDateTime(getOpStart.FINISH_DATE)>
+</CFIF>
+<div style="color:red">
+    #RDS#
+</div>
+
+
 
 <cfabort>
     <cfinclude  template="current_inc.cfm">
