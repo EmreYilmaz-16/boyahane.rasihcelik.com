@@ -612,7 +612,9 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
 
 
-
+<div class="alert alert-success" style="font-size:20pt !important">
+    Yıkama Eklenmiştir
+</div>
 
 
 
@@ -679,13 +681,18 @@ where PT.OPERATION_TYPE_ID=<cfif data.type.tip eq 0>7<cfelseif data.type.tip eq 
 
 <cfinclude  template="/Modules/labratuvar/query/add_production_ordel_all_2.cfm">
 
-
+<div class="alert alert-success" style="font-size:20pt !important">
+    Yıkama Eklenmiştir
+</div>
 
 
 
 
 <cfelseif data.type.pos eq "current"><!----Anlık Yıkama Ekle---->
 
+    <div class="alert alert-success" style="font-size:20pt !important">
+        Yıkama Eklenmiştir
+    </div>
 
 
 
@@ -709,7 +716,14 @@ ORDER BY FINISH_DATE DESC
 <CFSET RDS=NOW()>
 
 <CFIF getOpStart.recordCount>
-    <CFSET RDS=createODBCDateTime(getOpStart.FINISH_DATE)>
+    <div class="alert alert-danger" style="font-size:20pt !important">
+        Mevcut Pozisyna Yıkama Ekleyemezsiniz !
+    </div>
+    <cfabort>
+<cfelse>
+    <div class="alert alert-success" style="font-size:20pt !important">
+        Yıkama Eklenmiştir
+    </div>
 </CFIF>
 <CFSET RDF=dateAdd("n", getOperationTime.O_MINUTE, RDS)>
 <cfabort>
