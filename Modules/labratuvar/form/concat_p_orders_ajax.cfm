@@ -1,7 +1,9 @@
 <div class="card">
+
 <div class="card-header">Emir Birleştir</div>
 <div class="card-body">
-<table class="table table-sm">
+<cfdump var="#attributes#">
+    <table class="table table-sm">
 <tr>
 <td>
 <cfquery name="GetStationGroup" datasource="#dsn3#">
