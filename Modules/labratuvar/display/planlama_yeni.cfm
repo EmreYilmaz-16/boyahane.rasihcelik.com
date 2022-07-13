@@ -13,7 +13,7 @@ select STATION_ID,UP_STATION,STATION_NAME from WORKSTATIONS where UP_STATION IS 
   <div class="card-header">
     <h3 class="card-title">İş Listesi</h3>
     <div class="card-tools">  
-    <button type="button" class="btn btn-tool" onclick='openModal_partner("/index.cfm?fuseaction=labratuvar.emptypopup_ajaxpage_concat_p_orders","modal-xl")'><i class="fas fa-link"></i></button>
+    <button type="button" class="btn btn-tool" <!---</button>onclick='openModal_partner("/index.cfm?fuseaction=labratuvar.emptypopup_ajaxpage_concat_p_orders","modal-xl")'----> onclick="birlestir()"><i class="fas fa-link"></i></button>
       <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
       <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
     </div>  

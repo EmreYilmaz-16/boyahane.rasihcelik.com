@@ -471,3 +471,7 @@ function LoadData(date, date1, station_id = UpStationId, tyke) {
 
     });
 }
+
+function birlestir(){
+ console.log( birlesen_kontrol())
+}
